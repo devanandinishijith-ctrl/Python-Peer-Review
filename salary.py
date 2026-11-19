@@ -1,7 +1,9 @@
 
 from file_handler import save_payroll, view_payroll_records
 
+
 def calculate_payroll(employees):
+
     emp_id = input("Enter Employee ID: ").strip()
 
     employee = next(
@@ -13,7 +15,7 @@ def calculate_payroll(employees):
         print("Employee not found.")
         return
 
-    month = input("Enter payroll month (e.g. September 2026): ").strip()
+    month = input("Enter payroll month: ").strip()
 
     if not month:
         print("Month cannot be empty.")
@@ -40,17 +42,7 @@ def calculate_payroll(employees):
     print("Month:", month)
     print("Working Days:", working_days)
 
-    print("\n------ SALARY BREAKDOWN ------")
-    print(f"Basic Salary: Rs. {salary['basic']:.2f}")
-    # print(f"HRA: Rs. {salary['hra']:.2f}")
-    # print(f"DA: Rs. {salary['da']:.2f}")
-    print(f"Other Allowances: Rs. {salary['allowances']:.2f}")
-    print(f"Gross Salary: Rs. {salary['gross']:.2f}")
-    print(f"Deductions: Rs. {salary['deductions']:.2f}")
-
-    print("------------------------------")
-    print(f"NET SALARY: Rs. {salary['net']:.2f}")
-    print("==============================")
+    display_salary(salary)
 
     record = {
         "emp_id": employee.emp_id,
@@ -63,6 +55,25 @@ def calculate_payroll(employees):
     }
 
     save_payroll(record)
+
+
+def display_salary(salary):
+
+    print("\n------ SALARY BREAKDOWN ------")
+
+    details = {
+        "Basic Salary": salary["basic"],
+        "Other Allowances": salary["allowances"],
+        "Gross Salary": salary["gross"],
+        "Deductions": salary["deductions"],
+        "Net Salary": salary["net"]
+    }
+
+    for name, amount in details.items():
+        print(f"{name}: Rs. {amount:.2f}")
+
+    print("==============================")
+
 
 def view_payroll():
     view_payroll_records()
